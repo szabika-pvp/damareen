@@ -50,11 +50,11 @@
 }
 
 .dungeon-simple {
-    -fx-background-color: #268624;
+    -fx-background-color: #26862450;
 } .dungeon-easy {
-    -fx-background-color: #ffb600;
+    -fx-background-color: #ffb60050;
 } .dungeon-hard {
-    -fx-background-color: #a61414;
+    -fx-background-color: rgba(152, 0, 0, 0.31);
 }
 
 .dungeonName {
@@ -68,8 +68,8 @@
 .selected {
     -fx-border-color: #ffffff80;
     -fx-border-width: 5;
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.02;
+    -fx-scale-y: 1.02;
 }
 
 .deck {

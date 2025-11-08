@@ -15,8 +15,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.TextAlignment;
 
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +38,6 @@ public class MainController {
     private FlowPane fightButton;
 
     private GameEngine engine = new GameEngine();
-
     private Dungeon currentDungeon = null;
 
     @FXML
@@ -65,6 +66,7 @@ public class MainController {
         List<Card> emptyDeck = new ArrayList<>();
         engine.getPlayer().setDeck(new Deck(emptyDeck));
 
+        engine.addToCollection("Arin");
         engine.addToCollection("Liora");
         engine.addToCollection("Selia");
         engine.addToCollection("Nerun");
@@ -115,8 +117,9 @@ public class MainController {
             dungeonPane.setAlignment(Pos.CENTER_LEFT);
             dungeonPane.setHgap(5);
             dungeonPane.setVgap(5);
-            dungeonPane.setPrefWidth(1280);
-            dungeonPane.setPrefHeight(140);
+            dungeonPane.setPrefWidth(1180);
+            dungeonPane.setPrefHeight(150);
+            dungeonPane.setPadding(new Insets(10));
             dungeonPane.setPrefWrapLength(1300);
             dungeonPane.setCursor(Cursor.HAND);
             dungeonPane.getStyleClass().add("dungeon");
@@ -131,8 +134,15 @@ public class MainController {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY && !dungeonPane.getStyleClass().contains("selected")) {
                     dungeonsContainer.getChildren().forEach(c -> c.getStyleClass().remove("selected"));
                     dungeonPane.getStyleClass().add("selected");
-                } else {
-                    dungeonPane.getStyleClass().remove("selected");
+
+                    currentDungeon = dungeon;
+
+                    if (!engine.getPlayer().getDeck().getCards().isEmpty() &&
+                        fightButton.isDisabled() && currentDungeon != null
+                    ) {
+                        fightButton.setDisable(false);
+                        fightButton.setOpacity(1);
+                    }
                 }
             });
 
@@ -145,6 +155,15 @@ public class MainController {
 
             dungeonsContainer.getChildren().add(dungeonPane);
         }
+    }
+
+    @FXML
+    private void startCombat() throws IOException {
+
+        Combat combat = new Combat(engine);
+
+        //combat.start(currentDungeon, "");
+
     }
 
     private void newCardPane(FlowPane container, Card card, boolean leader) {
@@ -161,6 +180,10 @@ public class MainController {
         name.setPadding(new Insets(0, 5, 0, 5));
         stats.setPadding(new Insets(0, 5, 0, 5));
         type.setPadding(new Insets(0, 5, 0, 5));
+
+        name.setWrapText(true);
+        name.setAlignment(Pos.CENTER);
+        name.setTextAlignment(TextAlignment.CENTER);
 
         cardPane.getStyleClass().add("card");
         cardPane.setPrefWidth(100);
@@ -187,7 +210,7 @@ public class MainController {
         deckContainer.getChildren().add(card);
         Tooltip.install(card, new Tooltip("Jobb klikk a pakliból kiszedéshez"));
 
-        if (fightButton.isDisabled()) {
+        if (fightButton.isDisabled() && currentDungeon != null) {
             fightButton.setDisable(false);
             fightButton.setOpacity(1);
         }
