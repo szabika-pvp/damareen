@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="damareen_test:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/damareen_test_jar</output-path>
+    <root id="archive" name="damareen_test.jar">
+      <element id="module-output" name="damareen_test" />
+    </root>
+  </artifact>
+</component>
