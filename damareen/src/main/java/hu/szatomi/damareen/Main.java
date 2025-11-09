@@ -22,6 +22,6 @@ public class Main {
             return;
         }
 
-        System.out.println("Használat: java -jar cardgame.jar <mappa>  vagy  --ui");
+        System.out.println("Használat: .\\run.bat [mappa] vagy --ui");
     }
 }

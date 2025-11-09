@@ -97,12 +97,6 @@ public class GameEngine {
             combatFileWriter.write(combatEngine.nextTurn(), combatEngine.getRound(), dungeons.get(dungeonName));
         }
 
-        if (dungeons.get(dungeonName).getReward() == RewardType.ELETERO) {
-            combatEngine.getLastPlayerCard().increaseBaseHealth(2);
-        } else {
-            combatEngine.getLastPlayerCard().increaseBaseDamage(1);
-        }
-
         combatFileWriter.close();
     }
 
