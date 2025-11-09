@@ -77,7 +77,7 @@ public class Combat {
 
                     playerCard = playerQ.peek();
                     assert playerCard != null;
-                    logKijatszik(w, kor, "kazamata", playerCard);
+                    logKijatszik(w, kor, "jatekos", playerCard);
 
                 } else if (playerCard.getHealth() <= 0) { // meghalt egy player kártya
 

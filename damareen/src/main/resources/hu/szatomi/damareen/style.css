@@ -88,6 +88,16 @@
     -fx-scale-y: 1.05;
 }
 
+.combat {
+    -fx-background-color: #222222;
+}
+
+.cardHolder {
+    -fx-background-color: #ffffff30;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
 .tooltip {
     -fx-font-size: 14px;
     -fx-background-color: #333;

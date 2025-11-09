@@ -17,7 +17,7 @@ public class MainApp extends Application {
 
         primaryStage.setTitle("Damareen");
         primaryStage.setScene(new Scene(root));
-        primaryStage.setFullScreen(true);
+        primaryStage.setMaximized(true);
         primaryStage.setResizable(false);
         primaryStage.show();
     }

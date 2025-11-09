@@ -1,6 +1,7 @@
 package hu.szatomi.damareen.logic;
 
 import hu.szatomi.damareen.model.*;
+import hu.szatomi.damareen.model.CombatEngine;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -89,8 +90,20 @@ public class GameEngine {
     }
 
     public void startCombat(String dungeonName, String outputPath) throws IOException {
-        Combat combat = new Combat(this);
-        combat.start(dungeons.get(dungeonName.trim()), outputPath);
+        CombatEngine combatEngine = new CombatEngine(player, dungeons.get(dungeonName));
+        CombatFileWriter combatFileWriter = new CombatFileWriter(this, Path.of(outputPath));
+
+        while (!combatEngine.isFinished()) {
+            combatFileWriter.write(combatEngine.nextTurn(), combatEngine.getRound(), dungeons.get(dungeonName));
+        }
+
+        if (dungeons.get(dungeonName).getReward() == RewardType.ELETERO) {
+            combatEngine.getLastPlayerCard().increaseBaseHealth(2);
+        } else {
+            combatEngine.getLastPlayerCard().increaseBaseDamage(1);
+        }
+
+        combatFileWriter.close();
     }
 
     // első kártya a világban, ami még NINCS meg a playernek
@@ -171,7 +184,6 @@ public class GameEngine {
     }
 
     public String shorten(String s, int n) {
-        System.out.println(s.substring(0, min(s.length(), n)));
         return s.substring(0, min(s.length(), n));
     }
 
