@@ -79,6 +79,13 @@ public class CombatEngine {
             if (enemyQ.isEmpty()) {
                 finished = true;
                 playerWon = true;
+
+                if (dungeon.getReward() == RewardType.SEBZES) {
+                    lastPlayerCard.increaseBaseDamage(1);
+                } else {
+                    lastPlayerCard.increaseBaseHealth(2);
+                }
+
                 return new CombatAction("kazamata", "meghal", null, null, 0, 0);
             }
 
@@ -98,6 +105,7 @@ public class CombatEngine {
 
     private CombatAction doPlayerAction() {
 
+
         // új player card kijátszása
         if (playerCard == null || playerCard.getHealth() <= 0) {
 
@@ -106,19 +114,18 @@ public class CombatEngine {
 
             if (playerQ.isEmpty()) {
                 finished = true;
-                playerWon = true;
+                playerWon = false;
                 return new CombatAction("jatekos", "meghal", null, null, 0, 0);
             }
 
             playerCard = playerQ.peek();
+            lastPlayerCard = playerCard;
             return new CombatAction("jatekos", "kijatszik", playerCard, null, 0, playerCard.getHealth());
         }
 
         // támadás
         int dmg = calcDamage(playerCard, enemyCard);
         enemyCard.health -= dmg;
-
-        lastPlayerCard = playerCard;
 
         int newHp = Math.max(0, enemyCard.getHealth());
         return new CombatAction("jatekos", "tamad",

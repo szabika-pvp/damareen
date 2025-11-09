@@ -1,11 +1,9 @@
-package hu.szatomi.damareen;
+package hu.szatomi.damareen.controller;
 
 import hu.szatomi.damareen.logic.GameEngine;
 import hu.szatomi.damareen.model.*;
-import javafx.animation.FadeTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -16,10 +14,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
-import javafx.util.Duration;
 
-import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,75 +157,30 @@ public class MainController {
     }
 
     @FXML
-    private void startCombat() throws IOException {
+    private void openCombat() {
 
-        Combat combat = new Combat(engine);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/hu/szatomi/damareen/ui/combat.fxml"));
+            StackPane combatRoot = loader.load();
 
-        StackPane combatPane = new StackPane();
-        combatPane.setAlignment(Pos.CENTER);
-        combatPane.setPrefSize(1920, 1080);
-        combatPane.getStyleClass().add("combat");
+            CombatController cc = loader.getController();
+            cc.setEngine(engine);
+            cc.setMainController(this);
+            cc.setDungeon(currentDungeon);
+            cc.startCombatUI();
 
-        VBox combatVBox = new VBox();
-        combatVBox.setAlignment(Pos.CENTER);
-        combatVBox.setSpacing(10);
+            rootPane.getChildren().add(combatRoot);
 
-        HBox dungeonHand = new HBox();
-        dungeonHand.setAlignment(Pos.CENTER);
-        dungeonHand.setFillHeight(false);
-        dungeonHand.setSpacing(5);
-        dungeonHand.setPadding(new Insets(10));
-        HBox.setHgrow(dungeonHand, Priority.NEVER);
-        dungeonHand.setMaxWidth(Region.USE_PREF_SIZE);
-        dungeonHand.getStyleClass().add("cardHolder");
-
-        HBox playingArea = new HBox();
-        playingArea.setAlignment(Pos.CENTER);
-        playingArea.setPrefSize(600, 400);
-        playingArea.getStyleClass().add("cardHolder");
-        HBox.setHgrow(playingArea, Priority.NEVER);
-        playingArea.setMaxWidth(Region.USE_PREF_SIZE);
-
-        HBox playerHand = new HBox();
-        playerHand.setAlignment(Pos.CENTER);
-        playerHand.setFillHeight(false);
-        playerHand.setSpacing(5);
-        playerHand.setPadding(new Insets(10));
-        HBox.setHgrow(playerHand, Priority.NEVER);
-        playerHand.setMaxWidth(Region.USE_PREF_SIZE);
-        playerHand.getStyleClass().add("cardHolder");
-
-        VBox.setVgrow(playerHand, Priority.NEVER);
-        VBox.setVgrow(dungeonHand, Priority.NEVER);
-
-        for (Card card : currentDungeon.getEnemies()) {
-            newCardPane(dungeonHand, card, false);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (currentDungeon.hasLeader()) newCardPane(dungeonHand, currentDungeon.getLeader(), true);
-
-        for (Card card : engine.getPlayer().getDeck().getCards()) {
-            newCardPane(playerHand, card, false);
-        }
-
-        FadeTransition ft = new FadeTransition(Duration.millis(300), combatPane);
-        combatPane.setOpacity(0);
-        ft.setToValue(1);
-        ft.play();
-
-        combatPane.getChildren().add(combatVBox);
-
-        combatVBox.getChildren().add(dungeonHand);
-        combatVBox.getChildren().add(playingArea);
-        combatVBox.getChildren().add(playerHand);
-        rootPane.getChildren().add(combatPane);
-
-        //combat.start(currentDungeon, "");
-
     }
 
-    public void closeCombat() {
-        rootPane.getChildren().remove(rootPane.getChildren().size() - 1);
+    public void updateCardNodes() {
+        for (Node node : rootPane.lookupAll(".card")) {
+            Card curCard = (Card) node.getUserData();
+            ((Label) node.lookup(".stat")).setText(curCard.getBaseDamage() + "/" + curCard.getBaseHealth());
+        }
     }
 
     private void newCardPane(Pane container, Card card, boolean leader) {

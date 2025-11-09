@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<StackPane fx:id="combatPane" prefHeight="1080" prefWidth="1920" styleClass="combat" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.szatomi.damareen.controller.CombatController">
+
+    <children>
+        <VBox fx:id="combatVBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <children>
+                <HBox fx:id="dungeonHand" alignment="CENTER" fillHeight="false" maxWidth="600.0" prefHeight="150.0" prefWidth="120.0" spacing="5.0" styleClass="cardHolder" VBox.vgrow="NEVER">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+                <HBox fx:id="playingArea" alignment="CENTER" fillHeight="false" layoutX="963.0" layoutY="540.0" prefHeight="150.0" spacing="20.0" VBox.vgrow="NEVER">
+               <children>
+                  <StackPane fx:id="dungeonPlayingArea" prefHeight="150.0" prefWidth="130.0" styleClass="cardHolder" HBox.hgrow="NEVER">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </StackPane>
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                     <image>
+                        <Image url="@sword.png" />
+                     </image>
+                  </ImageView>
+                  <StackPane fx:id="playerPlayingArea" layoutX="70.0" layoutY="10.0" prefHeight="150.0" prefWidth="130.0" styleClass="cardHolder">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </StackPane>
+               </children>
+                </HBox>
+                <HBox fx:id="playerHand" alignment="CENTER" fillHeight="false" layoutX="963.0" layoutY="525.0" maxWidth="600.0" prefHeight="150.0" prefWidth="120.0" spacing="5.0" styleClass="cardHolder" VBox.vgrow="NEVER">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+            </children>
+        </VBox>
+        <AnchorPane prefHeight="1080.0" prefWidth="1920.0" StackPane.alignment="CENTER">
+            <children>
+                <HBox alignment="CENTER" fillHeight="false" maxWidth="-Infinity" prefHeight="80.0" prefWidth="200.0" spacing="5.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <children>
+                        <StackPane onMouseClicked="#startCombat" prefHeight="80.0" prefWidth="120.0" styleClass="controlButton">
+                            <children>
+                                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.5" scaleY="0.5" scaleZ="0.5">
+                                    <image>
+                                        <Image url="@play.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fitHeight="80.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" scaleX="0.5" scaleY="0.5" scaleZ="0.5" visible="false">
+                                    <image>
+                                        <Image url="@pause.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </StackPane>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </children>
+</StackPane>

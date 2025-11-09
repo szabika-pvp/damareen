@@ -7,4 +7,4 @@ public record CombatAction(
         Card attackedCard,
         int damage,
         int targetRemainingHp
-) {}
+) { }

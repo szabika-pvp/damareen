@@ -7,5 +7,7 @@ module hu.szatomi.damareen {
     requires java.desktop;
 
     exports hu.szatomi.damareen;
+    exports hu.szatomi.damareen.controller;
     opens hu.szatomi.damareen to javafx.fxml, javafx.graphics;
+    opens hu.szatomi.damareen.controller to javafx.fxml, javafx.graphics;
 }

@@ -66,10 +66,8 @@
 }
 
 .selected {
-    -fx-border-color: #ffffff80;
+    -fx-border-color: #ffffffaa;
     -fx-border-width: 5;
-    -fx-scale-x: 1.02;
-    -fx-scale-y: 1.02;
 }
 
 .deck {
@@ -83,7 +81,9 @@
     -fx-background-radius: 10;
     -fx-font-size: 36px;
     -fx-font-weight: bold;
-} .fight-button:hover {
+}
+
+.fight-button:hover, .controlButton:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
 }
@@ -93,7 +93,13 @@
 }
 
 .cardHolder {
-    -fx-background-color: #ffffff30;
+    -fx-background-color: #ffffff20;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.controlButton {
+    -fx-background-color: #47af00;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
 }
