@@ -1,7 +1,7 @@
 kartya;Aragorn;2;5;tuz
 kartya;Sadan;2;4;levego
 kartya;Corky;2;4;fold
-kartya;Kira;2;9;levego
+kartya;Kira;2;11;levego
 kartya;Eowyn;2;5;viz
 kartya;ObiWan;2;2;fold
 kartya;Tul'Arak;2;4;fold

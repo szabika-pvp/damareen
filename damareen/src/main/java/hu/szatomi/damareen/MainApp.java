@@ -13,7 +13,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Parent root = new FXMLLoader(getClass().getResource("UI/main.fxml")).load();
+        Parent root = new FXMLLoader(getClass().getResource("/hu/szatomi/damareen/ui/main.fxml")).load();
 
         primaryStage.setTitle("Damareen");
         primaryStage.setScene(new Scene(root));
