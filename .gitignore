@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+# own stuff
+TESTS/
+
 # Gradle
 .gradle/
 build/
