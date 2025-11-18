@@ -1,9 +1,5 @@
 package hu.szatomi.damareen;
 
-import hu.szatomi.damareen.logic.GameEngine;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -17,7 +13,6 @@ public class Main {
 
         // játék mód
         if (args.length == 1 && args[0].equals("--ui")) {
-
             System.setProperty("glass.win.uiScale", "1.0");
             MainApp.main(args);
             return;

@@ -32,6 +32,8 @@ public class Card {
         this.health = baseHealth;
     }
 
+    public void attack(int damage) { health -= damage; }
+
     public void increaseBaseHealth(int amount) {
         this.baseHealth += amount;
     }

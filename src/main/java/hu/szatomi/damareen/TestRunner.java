@@ -1,6 +1,5 @@
 package hu.szatomi.damareen;
 
-import hu.szatomi.damareen.logic.GameEngine;
 import hu.szatomi.damareen.model.*;
 
 import java.io.IOException;

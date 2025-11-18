@@ -1,24 +1,22 @@
 package hu.szatomi.damareen.controller;
 
-import hu.szatomi.damareen.logic.GameEngine;
+import hu.szatomi.damareen.GameEngine;
 import hu.szatomi.damareen.model.*;
-import hu.szatomi.damareen.model.CombatEngine;
+import hu.szatomi.damareen.logic.CombatEngine;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CombatController {
 
@@ -41,8 +39,9 @@ public class CombatController {
     private Node currentEnemyCardNode;
     private Node currentPlayerCardNode;
 
-    private int currentSpeed = 1500;
     private final Queue<CombatAction> actionQueue = new LinkedList<>();
+
+    private ScheduledExecutorService executor;
 
     public void setEngine(GameEngine e) {
         this.engine = e;
@@ -60,7 +59,7 @@ public class CombatController {
         combatEngine = new CombatEngine(engine.getPlayer(), dungeon);
 
         initCards();       // UI kártyák létrehozása
-        fillNodeMaps();    // Node → cardName map feltöltése
+        fillNodeMaps();    // node map-ek feltöltése
         startCombat();     // harc indítása
     }
 
@@ -70,22 +69,21 @@ public class CombatController {
 
         // dungeon ellenségek
         for (Card card : dungeon.getEnemies()) {
-            newCardPane(dungeonHand, card, false);
+            ControllerUtils.newCardPane(dungeonHand, card, false);
         }
 
         // leader, ha van
         if (dungeon.hasLeader()) {
-            newCardPane(dungeonHand, dungeon.getLeader(), true);
+            ControllerUtils.newCardPane(dungeonHand, dungeon.getLeader(), true);
         }
 
         // játékos kártyái
         for (Card card : engine.getPlayer().getDeck().getCards()) {
-            newCardPane(playerHand, card, false);
+            ControllerUtils.newCardPane(playerHand, card, false);
         }
     }
 
     private void fillNodeMaps() {
-
         dungeonCardNodes.clear();
         playerCardNodes.clear();
 
@@ -102,52 +100,36 @@ public class CombatController {
 
     @FXML
     private void startCombat() {
+        executor = Executors.newSingleThreadScheduledExecutor();
 
-        Thread t = new Thread(() -> {
+        int playSpeed = 1000;
+        executor.scheduleAtFixedRate(() -> {
 
-            try {
-                Thread.sleep(currentSpeed);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            if (combatEngine.isFinished()) {
+                Platform.runLater(this::closeCombat);
+                executor.shutdown();
+                return;
             }
 
-            while (!combatEngine.isFinished()) {
+            if (actionQueue.isEmpty()) {
+                CombatState state = combatEngine.nextTurn();
 
-                // ha üres a queue, tölts egy új körből
-                if (actionQueue.isEmpty()) {
+                if (state.enemyAction() != null)
+                    actionQueue.add(state.enemyAction());
 
-                    CombatState state = combatEngine.nextTurn();
-
-                    if (state.enemyAction() != null)
-                        actionQueue.add(state.enemyAction());
-
-                    if (state.playerAction() != null)
-                        actionQueue.add(state.playerAction());
-                }
-
-                // ha már üres és a játék véget ért
-                if (actionQueue.isEmpty()) break;
-
-                // egy LÉPÉS feldolgozása
-                CombatAction next = actionQueue.poll();
-
-                Platform.runLater(() ->
-                        handleAction(next, next.who().equals("kazamata"))
-                );
-
-                try {
-                    Thread.sleep(currentSpeed);
-                } catch (InterruptedException e) {
-                    return;
-                }
+                if (state.playerAction() != null)
+                    actionQueue.add(state.playerAction());
             }
 
-            Platform.runLater(this::closeCombat);
-        });
+            CombatAction next = actionQueue.poll();
 
-        t.setDaemon(true);
-        t.start();
+            Platform.runLater(() -> {
+                if (next != null && !combatEngine.isFinished()) {
+                    handleAction(next, next.who().equals("kazamata"));
+                }
+            });
 
+        }, playSpeed, playSpeed, TimeUnit.MILLISECONDS);
     }
 
     private void handleAction(CombatAction action, boolean enemySide) {
@@ -174,7 +156,7 @@ public class CombatController {
         Node n = dungeonCardNodes.get(cardName);
         if (n == null) return;
 
-        dungeonHand.getChildren().remove(n);
+        //dungeonHand.getChildren().remove(n);
         dungeonPlayingArea.getChildren().add(n);
 
         currentEnemyCardNode = n;
@@ -184,7 +166,7 @@ public class CombatController {
         Node n = playerCardNodes.get(cardName);
         if (n == null) return;
 
-        playerHand.getChildren().remove(n);
+        //playerHand.getChildren().remove(n);
         playerPlayingArea.getChildren().add(n);
 
         currentPlayerCardNode = n;
@@ -202,9 +184,7 @@ public class CombatController {
             dungeonPlayingArea.getChildren().remove(currentEnemyCardNode);
     }
 
-    // ---------------------------
-    // Helper: stat label frissítése
-    // ---------------------------
+    // stat label frissítése
 
     private void setHpLabel(Node n, int hp, int dmg) {
         if (n == null) return;
@@ -213,56 +193,10 @@ public class CombatController {
             hpLabel.setText(dmg + "/" + hp);
     }
 
-    // ---------------------------
-    // Combat UI bezárása
-    // ---------------------------
+    // combat UI bezárása
 
     private void closeCombat() {
-
         mainController.updateCardNodes();
         ((StackPane) combatPane.getParent()).getChildren().remove(combatPane);
-    }
-
-
-    // ---------------------------
-    // Card UI létrehozása (egyszerű)
-    // ---------------------------
-
-    private void newCardPane(Pane container, Card card, boolean leader) {
-
-        VBox box = new VBox();
-        box.getStyleClass().add("card");
-        box.setSpacing(5);
-        box.setPrefSize(100, 130);
-        box.setAlignment(Pos.CENTER);
-
-        Label name = new Label(card.getName());
-        Label stats = new Label(card.getBaseDamage() + "/" + card.getBaseHealth());
-        Label type = new Label(card.getType().toString().toLowerCase());
-
-        name.getStyleClass().add("name");
-        stats.getStyleClass().add("stat");
-        type.getStyleClass().add("type");
-
-        name.setPadding(new Insets(0, 5, 0, 5));
-        stats.setPadding(new Insets(0, 5, 0, 5));
-        type.setPadding(new Insets(0, 5, 0, 5));
-
-        name.setWrapText(true);
-        name.setAlignment(Pos.CENTER);
-        name.setTextAlignment(TextAlignment.CENTER);
-
-        if (leader) {
-            name.getStyleClass().add("leader-text");
-            stats.getStyleClass().add("leader-text");
-            type.getStyleClass().add("leader-text");
-            box.getStyleClass().add("leader");
-        }
-
-        box.getChildren().addAll(name, stats, type);
-
-        box.setUserData(card);
-
-        container.getChildren().add(box);
     }
 }

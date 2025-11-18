@@ -1,7 +1,8 @@
-package hu.szatomi.damareen.logic;
+package hu.szatomi.damareen;
 
+import hu.szatomi.damareen.logic.CombatFileWriter;
+import hu.szatomi.damareen.logic.CombatEngine;
 import hu.szatomi.damareen.model.*;
-import hu.szatomi.damareen.model.CombatEngine;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -14,9 +15,9 @@ public class GameEngine {
 
     private Player player;
 
-    private Map<String, Card> simpleCards = new LinkedHashMap<>();
-    private Map<String, LeaderCard> leaderCards = new HashMap<>();
-    private Map<String, Dungeon> dungeons = new LinkedHashMap<>();
+    private final Map<String, Card> simpleCards = new LinkedHashMap<>();
+    private final Map<String, LeaderCard> leaderCards = new HashMap<>();
+    private final Map<String, Dungeon> dungeons = new LinkedHashMap<>();
 
     public void createPlayer() {
         this.player = new Player();

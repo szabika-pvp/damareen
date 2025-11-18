@@ -1,15 +1,15 @@
-package hu.szatomi.damareen.model;
+package hu.szatomi.damareen.logic;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import hu.szatomi.damareen.model.*;
 
 public class CombatEngine {
 
-    private final Player player;
     private final Dungeon dungeon;
 
-    private Queue<Card> playerQ;
-    private Queue<Card> enemyQ;
+    private final Queue<Card> playerQ;
+    private final Queue<Card> enemyQ;
 
     private Card playerCard;
     private Card enemyCard;
@@ -22,7 +22,6 @@ public class CombatEngine {
     private int round = 0;
 
     public CombatEngine(Player player, Dungeon dungeon) {
-        this.player = player;
         this.dungeon = dungeon;
 
         // reset cards
@@ -41,16 +40,8 @@ public class CombatEngine {
         return finished;
     }
 
-    public boolean isPlayerWon() {
-        return playerWon;
-    }
-
     public int getRound() {
         return round;
-    }
-
-    public Card getLastPlayerCard() {
-        return lastPlayerCard;
     }
 
     public CombatState nextTurn() {
@@ -97,11 +88,10 @@ public class CombatEngine {
 
         // támadás
         int dmg = calcDamage(enemyCard, playerCard);
-        playerCard.health -= dmg;
+        playerCard.attack(dmg);
 
         int newHp = Math.max(0, playerCard.getHealth());
-        return new CombatAction("kazamata", "tamad",
-                enemyCard, playerCard, dmg, newHp);
+        return new CombatAction("kazamata", "tamad", enemyCard, playerCard, dmg, newHp);
     }
 
 
@@ -127,13 +117,11 @@ public class CombatEngine {
 
         // támadás
         int dmg = calcDamage(playerCard, enemyCard);
-        enemyCard.health -= dmg;
+        enemyCard.attack(dmg);
 
         int newHp = Math.max(0, enemyCard.getHealth());
-        return new CombatAction("jatekos", "tamad",
-                playerCard, enemyCard, dmg, newHp);
+        return new CombatAction("jatekos", "tamad", playerCard, enemyCard, dmg, newHp);
     }
-
 
     private int calcDamage(Card a, Card d) {
 

@@ -1,11 +1,10 @@
 package hu.szatomi.damareen.controller;
 
-import hu.szatomi.damareen.logic.GameEngine;
+import hu.szatomi.damareen.GameEngine;
 import hu.szatomi.damareen.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -13,12 +12,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
+
+    private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
     @FXML
     private StackPane rootPane;
@@ -36,7 +38,7 @@ public class MainController {
     @FXML
     private FlowPane fightButton;
 
-    private GameEngine engine = new GameEngine();
+    private final GameEngine engine = new GameEngine();
     private Dungeon currentDungeon = null;
 
     @FXML
@@ -77,26 +79,26 @@ public class MainController {
         engine.addToCollection("Isara");
 
         for (Card card : engine.getSimpleCards().values()) {
-            newCardPane(simpleCardsContainer, card, false);
+            ControllerUtils.newCardPane(simpleCardsContainer, card, false);
         }
 
         for (Card card : engine.getLeaderCards().values()) {
-            newCardPane(leaderCardsContainer, card, true);
+            ControllerUtils.newCardPane(leaderCardsContainer, card, true);
         }
 
         for (Card card : engine.getPlayer().getCollection()) {
-            newCardPane(collectionContainer, card, false);
+            ControllerUtils.newCardPane(collectionContainer, card, false);
         }
 
         for (Node card : collectionContainer.getChildren()) {
 
-            ((FlowPane) card).cursorProperty().set(Cursor.HAND);
+            card.cursorProperty().set(Cursor.HAND);
 
             Tooltip.install(card, new Tooltip("Bal klikk a paklihoz adáshoz"));
 
             card.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY &&
-                    deckContainer.getChildren().size() < Math.ceil(collectionContainer.getChildren().size()) &&
+                    deckContainer.getChildren().size() < collectionContainer.getChildren().size() &&
                     card.getParent() != deckContainer
                 ) {
                     addToDeck((FlowPane) card);
@@ -149,8 +151,8 @@ public class MainController {
             dungeonName.getStyleClass().add("dungeonName");
             dungeonPane.getChildren().add(dungeonName);
 
-            for (Card enemy : dungeon.getEnemies()) newCardPane(dungeonPane, enemy, false);
-            if (dungeon.hasLeader()) newCardPane(dungeonPane, dungeon.getLeader(), true);
+            for (Card enemy : dungeon.getEnemies()) ControllerUtils.newCardPane(dungeonPane, enemy, false);
+            if (dungeon.hasLeader()) ControllerUtils.newCardPane(dungeonPane, dungeon.getLeader(), true);
 
             dungeonsContainer.getChildren().add(dungeonPane);
         }
@@ -172,7 +174,7 @@ public class MainController {
             rootPane.getChildren().add(combatRoot);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Probléma történt a combat indításakor", e);
         }
     }
 
@@ -181,45 +183,6 @@ public class MainController {
             Card curCard = (Card) node.getUserData();
             ((Label) node.lookup(".stat")).setText(curCard.getBaseDamage() + "/" + curCard.getBaseHealth());
         }
-    }
-
-    private void newCardPane(Pane container, Card card, boolean leader) {
-
-        FlowPane cardPane = new FlowPane();
-        Label name = new Label(card.getName());
-        Label stats = new Label(card.getBaseDamage() + "/" + card.getBaseHealth());
-        Label type = new Label(card.getType().toString().toLowerCase());
-
-        name.getStyleClass().add("name");
-        stats.getStyleClass().add("stat");
-        type.getStyleClass().add("type");
-
-        name.setPadding(new Insets(0, 5, 0, 5));
-        stats.setPadding(new Insets(0, 5, 0, 5));
-        type.setPadding(new Insets(0, 5, 0, 5));
-
-        name.setWrapText(true);
-        name.setAlignment(Pos.CENTER);
-        name.setTextAlignment(TextAlignment.CENTER);
-
-        cardPane.getStyleClass().add("card");
-        cardPane.setPrefWidth(100);
-        cardPane.setPrefHeight(130);
-        cardPane.setOrientation(Orientation.VERTICAL);
-        cardPane.setAlignment(Pos.CENTER);
-
-        cardPane.setUserData(card);
-
-        if (leader) {
-            name.getStyleClass().add("leader-text");
-            stats.getStyleClass().add("leader-text");
-            type.getStyleClass().add("leader-text");
-            cardPane.getStyleClass().add("leader");
-        }
-
-        cardPane.getChildren().addAll(name, stats, type);
-
-        container.getChildren().add(cardPane);
     }
 
     private void addToDeck(FlowPane card) {
@@ -238,7 +201,7 @@ public class MainController {
         collectionContainer.getChildren().add(card);
         Tooltip.install(card, new Tooltip("Bal klikk a paklihoz adáshoz"));
 
-        if (deckContainer.getChildren().size() == 0) {
+        if (deckContainer.getChildren().isEmpty()) {
             fightButton.setDisable(true);
             fightButton.setOpacity(0.5);
         }

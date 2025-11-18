@@ -1,5 +1,6 @@
 package hu.szatomi.damareen.logic;
 
+import hu.szatomi.damareen.GameEngine;
 import hu.szatomi.damareen.model.CombatAction;
 import hu.szatomi.damareen.model.CombatState;
 import hu.szatomi.damareen.model.Dungeon;
