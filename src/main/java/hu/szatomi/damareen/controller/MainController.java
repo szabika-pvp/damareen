@@ -38,11 +38,13 @@ public class MainController {
     @FXML
     private FlowPane fightButton;
 
-    private final GameEngine engine = new GameEngine();
+    private GameEngine engine;
     private Dungeon currentDungeon = null;
 
     @FXML
     public void initialize() {
+
+        this.engine = ControllerUtils.getEngine();
 
         engine.addCard("Arin", 2, 6, CardType.VIZ);
         engine.addCard("Liora", 2, 4, CardType.LEVEGO);
@@ -166,10 +168,12 @@ public class MainController {
             StackPane combatRoot = loader.load();
 
             CombatController cc = loader.getController();
-            cc.setEngine(engine);
-            cc.setMainController(this);
             cc.setDungeon(currentDungeon);
-            cc.startCombatUI();
+
+            cc.setOnClose(() -> {
+                updateCardNodes();
+                rootPane.getChildren().remove(combatRoot);
+            });
 
             rootPane.getChildren().add(combatRoot);
 

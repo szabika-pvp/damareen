@@ -10,17 +10,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class CombatController {
 
-    @FXML private StackPane combatPane;
     @FXML private HBox dungeonHand;
     @FXML private HBox playerHand;
 
@@ -31,7 +27,6 @@ public class CombatController {
     private Dungeon dungeon;
 
     private CombatEngine combatEngine;
-    private MainController mainController;
 
     private final Map<String, Node> dungeonCardNodes = new HashMap<>();
     private final Map<String, Node> playerCardNodes = new HashMap<>();
@@ -42,17 +37,20 @@ public class CombatController {
     private final Queue<CombatAction> actionQueue = new LinkedList<>();
 
     private ScheduledExecutorService executor;
+    private Runnable onClose;
 
-    public void setEngine(GameEngine e) {
-        this.engine = e;
+    public void setOnClose(Runnable r) {
+        this.onClose = r;
     }
 
     public void setDungeon(Dungeon d) {
         this.dungeon = d;
     }
 
-    public void setMainController(MainController c) {
-        this.mainController = c;
+    @FXML
+    public void initialize() {
+        engine = ControllerUtils.getEngine();
+        startCombatUI();
     }
 
     public void startCombatUI() {
@@ -185,7 +183,6 @@ public class CombatController {
     }
 
     // stat label frissítése
-
     private void setHpLabel(Node n, int hp, int dmg) {
         if (n == null) return;
         Label hpLabel = (Label) n.lookup(".stat"); // vagy .hpLabel ha külön van
@@ -194,9 +191,7 @@ public class CombatController {
     }
 
     // combat UI bezárása
-
     private void closeCombat() {
-        mainController.updateCardNodes();
-        ((StackPane) combatPane.getParent()).getChildren().remove(combatPane);
+        if (onClose != null) onClose.run();
     }
 }

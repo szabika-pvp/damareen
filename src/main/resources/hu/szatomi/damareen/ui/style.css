@@ -1,5 +1,10 @@
+@font-face {
+    font-family: "Jersey";
+    src: url("/hu/szatomi/damareen/ui/font/Jersey10-Regular.ttf");
+}
+
 * {
-    -fx-font-family: "Consolas", "Courier New", monospace;
+    -fx-font-family: "Jersey";
 }
 
 .card {
@@ -111,4 +116,9 @@
     -fx-padding: 10;
     -fx-background-radius: 5;
     -fx-show-delay: 100ms;
+}
+
+.menu-button {
+    -fx-font-family: Jersey;
+    -fx-background-color: #000000;
 }

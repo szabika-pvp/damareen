@@ -1,5 +1,6 @@
 package hu.szatomi.damareen.controller;
 
+import hu.szatomi.damareen.GameEngine;
 import hu.szatomi.damareen.model.Card;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
@@ -10,6 +11,16 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.TextAlignment;
 
 public class ControllerUtils {
+
+    public static GameEngine gameEngine;
+
+    public static void setEngine(GameEngine gameEngine) {
+        ControllerUtils.gameEngine = gameEngine;
+    }
+
+    public static GameEngine getEngine() {
+        return gameEngine;
+    }
 
     public static void newCardPane(Pane container, Card card, boolean leader) {
 

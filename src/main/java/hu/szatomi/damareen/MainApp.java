@@ -1,5 +1,6 @@
 package hu.szatomi.damareen;
 
+import hu.szatomi.damareen.controller.ControllerUtils;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,16 +11,13 @@ import java.io.IOException;
 
 public class MainApp extends Application {
 
+    private final GameEngine engine = new GameEngine();
+
     @Override
-    public void start(Stage primaryStage) throws IOException {
-
-        Parent root = new FXMLLoader(getClass().getResource("/hu/szatomi/damareen/ui/main.fxml")).load();
-
-        primaryStage.setTitle("Damareen");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.setMaximized(true);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+    public void start(Stage stage) {
+        ControllerUtils.setEngine(engine);
+        SceneManager.init(stage);
+        SceneManager.get().loadScene("menu");
     }
 
     public static void main(String[] args) {

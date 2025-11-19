@@ -5,12 +5,12 @@
 TESTS/
 
 # Gradle
-.gradle/
-build/
+#.gradle/
+#build/
 
 # IntelliJ
-.idea/
-*.iml
+#.idea/
+#*.iml
 
 # Log file
 *.log
