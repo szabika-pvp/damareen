@@ -14,6 +14,7 @@ import static java.lang.Math.min;
 public class GameEngine {
 
     private Player player;
+    private int difficulty = 0;
 
     private final Map<String, Card> simpleCards = new LinkedHashMap<>();
     private final Map<String, LeaderCard> leaderCards = new HashMap<>();
@@ -30,6 +31,14 @@ public class GameEngine {
     public Map<String, Card> getSimpleCards() { return simpleCards; }
     public Map<String, LeaderCard> getLeaderCards() { return leaderCards; }
     public Map<String, Dungeon> getDungeons() { return dungeons; }
+
+    public void loadState(GameState state) {
+
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
 
     public void addCard(String name, int dmg, int hp, CardType type) {
         simpleCards.put(shorten(name, 16), new Card(shorten(name, 16), dmg, hp, type));
@@ -206,6 +215,4 @@ public class GameEngine {
             }
         }
     }
-
-
 }

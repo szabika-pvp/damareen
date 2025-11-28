@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CombatController {
+public class CombatController implements EngineAware {
 
     @FXML private HBox dungeonHand;
     @FXML private HBox playerHand;
@@ -47,9 +47,13 @@ public class CombatController {
         this.dungeon = d;
     }
 
+    @Override
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+    }
+
     @FXML
     public void initialize() {
-        engine = ControllerUtils.getEngine();
         startCombatUI();
     }
 

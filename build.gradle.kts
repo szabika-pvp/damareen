@@ -41,6 +41,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation("org.slf4j:slf4j-api:2.0.13")
     implementation("org.slf4j:slf4j-simple:2.0.13")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
 }
 
 tasks.withType<Test> {

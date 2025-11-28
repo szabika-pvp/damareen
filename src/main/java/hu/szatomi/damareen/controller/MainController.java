@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainController {
+public class MainController implements EngineAware {
 
     private static final Logger log = LoggerFactory.getLogger(MainController.class);
 
@@ -41,10 +41,13 @@ public class MainController {
     private GameEngine engine;
     private Dungeon currentDungeon = null;
 
+    @Override
+    public void setEngine(GameEngine engine) {
+        this.engine = engine;
+    }
+
     @FXML
     public void initialize() {
-
-        this.engine = ControllerUtils.getEngine();
 
         engine.addCard("Arin", 2, 6, CardType.VIZ);
         engine.addCard("Liora", 2, 4, CardType.LEVEGO);

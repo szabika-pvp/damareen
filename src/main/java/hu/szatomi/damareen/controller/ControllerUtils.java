@@ -12,16 +12,6 @@ import javafx.scene.text.TextAlignment;
 
 public class ControllerUtils {
 
-    public static GameEngine gameEngine;
-
-    public static void setEngine(GameEngine gameEngine) {
-        ControllerUtils.gameEngine = gameEngine;
-    }
-
-    public static GameEngine getEngine() {
-        return gameEngine;
-    }
-
     public static void newCardPane(Pane container, Card card, boolean leader) {
 
         FlowPane cardPane = new FlowPane();

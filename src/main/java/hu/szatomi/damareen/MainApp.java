@@ -1,13 +1,11 @@
 package hu.szatomi.damareen;
 
 import hu.szatomi.damareen.controller.ControllerUtils;
+import hu.szatomi.damareen.manager.SceneManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class MainApp extends Application {
 
@@ -15,9 +13,14 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        ControllerUtils.setEngine(engine);
+
+        Font.loadFont(
+                getClass().getResourceAsStream("/hu/szatomi/damareen/ui/font/Jersey10-Regular.ttf"),
+                10
+        );
+
         SceneManager.init(stage);
-        SceneManager.get().loadScene("menu");
+        SceneManager.get().loadScene("menu", engine);
     }
 
     public static void main(String[] args) {
