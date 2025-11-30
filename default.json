@@ -1,42 +1,98 @@
 {
 	"env": {
 		"cards": [
-			{"name": "Nigga 1", "damage": 61, "health": 201, "type": "FOLD"},
-			{"name": "Nigga 2", "damage": 62, "health": 202, "type": "VIZ"},
-			{"name": "Nigga 3", "damage": 63, "health": 203, "type": "TUZ"},
-			{"name": "Nigga 4", "damage": 64, "health": 204, "type": "LEVEGO"},
-			{"name": "Nigga 5", "damage": 65, "health": 205, "type": "FOLD"},
-			{"name": "Nigga 6", "damage": 66, "health": 206, "type": "VIZ"},
-			{"name": "Nigga 7", "damage": 67, "health": 207, "type": "TUZ"},
-			{"name": "Nigga 8", "damage": 68, "health": 208, "type": "LEVEGO"},
-			{"name": "Nigga 9", "damage": 69, "health": 209, "type": "FOLD"},
-			{"name": "Nigga 10", "damage": 70, "health": 210, "type": "FOLD"}
+			{"name": "Arden", "damage": 7, "health": 10, "type": "FOLD"},
+			{"name": "Elric", "damage": 3, "health": 20, "type": "VIZ"},
+			{"name": "Cael", "damage": 5, "health": 15, "type": "TUZ"},
+			{"name": "Rowan", "damage": 6, "health": 12, "type": "LEVEGO"},
+			{"name": "Lior", "damage": 4, "health": 15, "type": "LEVEGO"},
+			{"name": "Soren", "damage": 3, "health": 17, "type": "TUZ"},
+			{"name": "Taran", "damage": 6, "health": 13, "type": "FOLD"},
+			{"name": "Jory", "damage": 8, "health": 10, "type": "TUZ"},
+			{"name": "Varen", "damage": 7, "health": 11, "type": "VIZ"},
+			{"name": "Marn", "damage": 5, "health": 16, "type": "VIZ"},
+
+			{"name": "Fallow", "damage": 6, "health": 13, "type": "FOLD"},
+			{"name": "Alar", "damage": 3, "health": 19, "type": "LEVEGO"},
+			{"name": "Dusk", "damage": 3, "health": 20, "type": "TUZ"},
+			{"name": "Kaelith", "damage": 5, "health": 14, "type": "FOLD"},
+			{"name": "Maren", "damage": 6, "health": 14, "type": "VIZ"},
+			{"name": "Wren", "damage": 8, "health": 10, "type": "VIZ"},
+			{"name": "Ashen", "damage": 5, "health": 15, "type": "FOLD"},
+			{"name": "Wynn", "damage": 4, "health": 17, "type": "LEVEGO"},
+			{"name": "Zephyr", "damage": 3, "health": 18, "type": "TUZ"},
+			{"name": "Kestrel", "damage": 7, "health": 11, "type": "LEVEGO"}
 		],
 
 		"leaders": [
-			{"name": "Nigga 6 boss", "baseCard": "Nigga 6", "type": "SEBZES"}
+			{"name": "Marnord", "baseCard": "Marn", "type": "ELETERO"},
+			{"name": "Jorius", "baseCard": "Jory", "type": "SEBZES"},
+			{"name": "Rowanos", "baseCard": "Rowan", "type": "ELETERO"}
 		],
 
 		"dungeons": [
 			{
-				"name": "Nigga Üreg",
+				"name": "Eldenford",
 				"enemies": [
-					"Nigga 6",
-					"Nigga 7"
+					"Wynn"
 				],
-				"leader": "Nigga 6 boss",
+				"type": "EGYSZERU",
+				"rewardType": "SEBZES"
+			},
+			{
+				"name": "Halbrook",
+				"enemies": [
+					"Fallow"
+				],
+				"type": "EGYSZERU",
+				"rewardType": "ELETERO"
+
+			},
+			{
+				"name": "Thornfield",
+				"enemies": [
+					"Soren",
+					"Ashen",
+					"Kestrel"
+				],
+				"leader": "Jorius",
 				"type": "KIS"
+			},
+			{
+				"name": "Larkspur",
+				"enemies": [
+					"Maren",
+					"Wren",
+					"Lior"
+				],
+				"leader": "Marnord",
+				"type": "KIS"
+			},
+			{
+				"name": "Fenwick",
+				"enemies": [
+					"Alar",
+					"Elric",
+					"Dusk",
+					"Kaelith",
+					"Arden"
+				],
+				"leader": "Rowanos",
+				"type": "NAGY"
 			}
 		]
 	},
 
 	"player": {
 		"collection": [
-			{"name": "Nigga 1", "damage": 61, "health": 201, "type": "FOLD"},
-			{"name": "Nigga 3", "damage": 63, "health": 203, "type": "TUZ"},
-			{"name": "Nigga 5", "damage": 65, "health": 205, "type": "FOLD"},
-			{"name": "Nigga 7", "damage": 67, "health": 207, "type": "TUZ"},
-			{"name": "Nigga 9", "damage": 69, "health": 209, "type": "FOLD"}
+			{"name": "Fallow", "damage": 6, "health": 13, "type": "FOLD"},
+			{"name": "Maren", "damage": 6, "health": 14, "type": "VIZ"},
+			{"name": "Wynn", "damage": 4, "health": 17, "type": "LEVEGO"},
+			{"name": "Dusk", "damage": 3, "health": 20, "type": "TUZ"},
+			{"name": "Cael", "damage": 5, "health": 15, "type": "TUZ"},
+			{"name": "Elric", "damage": 3, "health": 20, "type": "VIZ"},
+			{"name": "Lior", "damage": 4, "health": 15, "type": "LEVEGO"},
+			{"name": "Taran", "damage": 6, "health": 13, "type": "FOLD"}
 		],
 		"deck": []
 	}

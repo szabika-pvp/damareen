@@ -18,6 +18,8 @@ public class MainApp extends Application {
         );
 
         SceneManager.init(stage);
+        stage.setMaximized(true);
+        stage.setTitle("Damareen");
         SceneManager.get().loadScene("menu", engine);
     }
 

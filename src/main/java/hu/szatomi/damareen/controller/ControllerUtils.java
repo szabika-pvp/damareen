@@ -8,13 +8,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 
 public class ControllerUtils {
 
     public static void newCardPane(Pane container, Card card, boolean leader) {
 
-        FlowPane cardPane = new FlowPane();
+        VBox cardPane = new VBox();
         Label name = new Label(card.getName());
         Label stats = new Label(card.getBaseDamage() + "/" + card.getBaseHealth());
         Label type = new Label(card.getType().toString().toLowerCase());
@@ -34,7 +35,6 @@ public class ControllerUtils {
         cardPane.getStyleClass().add("card");
         cardPane.setPrefWidth(100);
         cardPane.setPrefHeight(130);
-        cardPane.setOrientation(Orientation.VERTICAL);
         cardPane.setAlignment(Pos.CENTER);
 
         cardPane.setUserData(card);

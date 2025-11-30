@@ -4,14 +4,10 @@
 
 .dark-pane {
     -fx-background-color: #444;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
 }
 
 .light-pane {
     -fx-background-color: #fff;
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
 }
 
 .dark-pane Label {
@@ -55,11 +51,6 @@
     -fx-text-fill: white;
 }
 
-.dungeon {
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-}
-
 .user-panel .card:hover {
     -fx-scale-x: 1.05;
     -fx-scale-y: 1.05;
@@ -75,26 +66,18 @@
 
 .dungeonName {
     -fx-text-fill: white;
-    -fx-pref-width: 300;
     -fx-font-size: 20px;
     -fx-alignment: center;
     -fx-font-weight: bold;
 }
 
 .selected {
-    -fx-border-color: #ffffffaa;
-    -fx-border-width: 5;
-}
-
-.deck {
-    -fx-background-color: #ffffff20;
-    -fx-background-radius: 10;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 2;
 }
 
 .fight-button {
     -fx-background-color: red;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
     -fx-font-size: 36px;
     -fx-font-weight: bold;
 }
@@ -109,15 +92,11 @@
 }
 
 .cardHolder {
-    -fx-background-color: #ffffff20;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
+    -fx-background-color: #ffffff10;
 }
 
 .controlButton {
     -fx-background-color: #47af00;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
 }
 
 .tooltip {
@@ -125,7 +104,6 @@
     -fx-background-color: #333;
     -fx-text-fill: white;
     -fx-padding: 10;
-    -fx-background-radius: 5;
     -fx-show-delay: 100ms;
 }
 

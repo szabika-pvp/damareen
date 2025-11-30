@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -27,18 +28,21 @@ public class MainController implements EngineAware {
     private StackPane rootPane;
 
     @FXML
+    private HBox rootHBox;
+    @FXML
+    private VBox leftPane;
+    @FXML
+    private VBox rightPane;
+
+    @FXML
     private VBox pauseMenu;
 
     @FXML
-    private FlowPane simpleCardsContainer;
+    private VBox dungeonsContainer;
     @FXML
-    private FlowPane leaderCardsContainer;
+    private TilePane collectionContainer;
     @FXML
-    private FlowPane dungeonsContainer;
-    @FXML
-    private FlowPane collectionContainer;
-    @FXML
-    private FlowPane deckContainer;
+    private TilePane deckContainer;
     @FXML
     private FlowPane fightButton;
 
@@ -47,6 +51,10 @@ public class MainController implements EngineAware {
 
     @FXML
     public void initialize() {
+
+        leftPane.prefWidthProperty().bind(rootHBox.widthProperty().multiply(0.5));
+        rightPane.prefWidthProperty().bind(rootHBox.widthProperty().multiply(0.5));
+
         // későbbi futásra rakjuk, mert initialize idején még nincs scene
         Platform.runLater(() -> {
             rootPane.getScene().setOnKeyPressed(e -> {
@@ -66,49 +74,8 @@ public class MainController implements EngineAware {
     @FXML
     public void startEngine() {
 
-//        engine.addCard("Arin", 2, 6, CardType.VIZ);
-//        engine.addCard("Liora", 2, 4, CardType.LEVEGO);
-//        engine.addCard("Nerun", 3, 3, CardType.TUZ);
-//        engine.addCard("Selia", 2, 6, CardType.VIZ);
-//        engine.addCard("Torak", 3, 4, CardType.FOLD);
-//        engine.addCard("Emera", 2, 5, CardType.LEVEGO);
-//        engine.addCard("Vorn", 2, 7, CardType.VIZ);
-//        engine.addCard("Kael", 3, 5, CardType.TUZ);
-//        engine.addCard("Myra", 2, 6, CardType.FOLD);
-//        engine.addCard("Thalen", 3, 5, CardType.LEVEGO);
-//        engine.addCard("Isara", 2, 6, CardType.VIZ);
-//
-//        engine.addLeader("Lord Torak", "Torak", LeaderType.SEBZES);
-//        engine.addLeader("Priestess Selia", "Selia", LeaderType.ELETERO);
-//
-//        engine.addDungeon(new String[] {"", "egyszeru", "Barlangi Portya", "Nerun", "sebzes"});
-//        engine.addDungeon(new String[] {"", "kis", "Osi Szentely", "Arin,Emera,Selia", "Lord Torak", "eletero"});
-//        engine.addDungeon(new String[] {"", "nagy", "A melyseg kiralynoje", "Liora,Arin,Selia,Nerun,Torak", "Priestess Selia"});
-//
-//        engine.createPlayer();
-//        List<Card> emptyDeck = new ArrayList<>();
-//        engine.getPlayer().setDeck(new Deck(emptyDeck));
-//
-//        engine.addToCollection("Arin");
-//        engine.addToCollection("Liora");
-//        engine.addToCollection("Selia");
-//        engine.addToCollection("Nerun");
-//        engine.addToCollection("Torak");
-//        engine.addToCollection("Emera");
-//        engine.addToCollection("Kael");
-//        engine.addToCollection("Myra");
-//        engine.addToCollection("Thalen");
-//        engine.addToCollection("Isara");
-
         engine.load();
 
-        for (Card card : engine.getSimpleCards().values()) {
-            ControllerUtils.newCardPane(simpleCardsContainer, card, false);
-        }
-
-        for (Card card : engine.getLeaderCards().values()) {
-            ControllerUtils.newCardPane(leaderCardsContainer, card, true);
-        }
 
         for (Card card : engine.getPlayer().getCollection()) {
             ControllerUtils.newCardPane(collectionContainer, card, false);
@@ -123,12 +90,12 @@ public class MainController implements EngineAware {
                     deckContainer.getChildren().size() < collectionContainer.getChildren().size() &&
                     card.getParent() != deckContainer
                 ) {
-                    addToDeck((FlowPane) card);
+                    addToDeck((VBox) card);
                 }
                 else if (mouseEvent.getButton() == MouseButton.SECONDARY &&
                     card.getParent() != collectionContainer
                 ) {
-                    removeFromDeck((FlowPane) card);
+                    removeFromDeck((VBox) card);
                 }
             });
         }
@@ -145,17 +112,17 @@ public class MainController implements EngineAware {
 
         for (Dungeon dungeon : engine.getDungeons().values()) {
 
-            FlowPane dungeonPane = new FlowPane();
+            TilePane dungeonPane = new TilePane();
 
             dungeonPane.setAlignment(Pos.CENTER_LEFT);
+            dungeonPane.setOrientation(Orientation.HORIZONTAL);
             dungeonPane.setHgap(5);
             dungeonPane.setVgap(5);
-            dungeonPane.setPrefWidth(1180);
-            dungeonPane.setPrefHeight(150);
             dungeonPane.setPadding(new Insets(10));
-            dungeonPane.setPrefWrapLength(1300);
             dungeonPane.setCursor(Cursor.HAND);
-            dungeonPane.getStyleClass().add("dungeon");
+            dungeonPane.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+            dungeonPane.setPrefRows(2);
+            dungeonPane.setPrefColumns(5);
 
             dungeonPane.getStyleClass().add(
                 dungeon.getType() == DungeonType.EGYSZERU ? "dungeon-simple" : (
@@ -179,9 +146,11 @@ public class MainController implements EngineAware {
                 }
             });
 
-            Label dungeonName = new Label(dungeon.getName());
-            dungeonName.getStyleClass().add("dungeonName");
-            dungeonPane.getChildren().add(dungeonName);
+//            Label dungeonName = new Label(dungeon.getName());
+//            dungeonPane.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+//            dungeonName.getStyleClass().add("dungeonName");
+//            dungeonName.setPrefSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
+//            dungeonPane.getChildren().add(dungeonName);
 
             for (Card enemy : dungeon.getEnemies()) ControllerUtils.newCardPane(dungeonPane, enemy, false);
             if (dungeon.hasLeader()) ControllerUtils.newCardPane(dungeonPane, dungeon.getLeader(), true);
@@ -250,7 +219,7 @@ public class MainController implements EngineAware {
         }
     }
 
-    private void addToDeck(FlowPane card) {
+    private void addToDeck(VBox card) {
         engine.getPlayer().getDeck().addCard((Card) card.getUserData());
         deckContainer.getChildren().add(card);
 
@@ -260,7 +229,7 @@ public class MainController implements EngineAware {
         }
     }
 
-    private void removeFromDeck(FlowPane card) {
+    private void removeFromDeck(VBox card) {
         engine.getPlayer().getDeck().removeCardByName(((Card) card.getUserData()).getName());
         collectionContainer.getChildren().add(card);
 
