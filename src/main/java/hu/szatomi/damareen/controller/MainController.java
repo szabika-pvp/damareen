@@ -44,44 +44,47 @@ public class MainController implements EngineAware {
     @Override
     public void setEngine(GameEngine engine) {
         this.engine = engine;
+        startEngine();
     }
 
     @FXML
-    public void initialize() {
+    public void startEngine() {
 
-        engine.addCard("Arin", 2, 6, CardType.VIZ);
-        engine.addCard("Liora", 2, 4, CardType.LEVEGO);
-        engine.addCard("Nerun", 3, 3, CardType.TUZ);
-        engine.addCard("Selia", 2, 6, CardType.VIZ);
-        engine.addCard("Torak", 3, 4, CardType.FOLD);
-        engine.addCard("Emera", 2, 5, CardType.LEVEGO);
-        engine.addCard("Vorn", 2, 7, CardType.VIZ);
-        engine.addCard("Kael", 3, 5, CardType.TUZ);
-        engine.addCard("Myra", 2, 6, CardType.FOLD);
-        engine.addCard("Thalen", 3, 5, CardType.LEVEGO);
-        engine.addCard("Isara", 2, 6, CardType.VIZ);
+//        engine.addCard("Arin", 2, 6, CardType.VIZ);
+//        engine.addCard("Liora", 2, 4, CardType.LEVEGO);
+//        engine.addCard("Nerun", 3, 3, CardType.TUZ);
+//        engine.addCard("Selia", 2, 6, CardType.VIZ);
+//        engine.addCard("Torak", 3, 4, CardType.FOLD);
+//        engine.addCard("Emera", 2, 5, CardType.LEVEGO);
+//        engine.addCard("Vorn", 2, 7, CardType.VIZ);
+//        engine.addCard("Kael", 3, 5, CardType.TUZ);
+//        engine.addCard("Myra", 2, 6, CardType.FOLD);
+//        engine.addCard("Thalen", 3, 5, CardType.LEVEGO);
+//        engine.addCard("Isara", 2, 6, CardType.VIZ);
+//
+//        engine.addLeader("Lord Torak", "Torak", LeaderType.SEBZES);
+//        engine.addLeader("Priestess Selia", "Selia", LeaderType.ELETERO);
+//
+//        engine.addDungeon(new String[] {"", "egyszeru", "Barlangi Portya", "Nerun", "sebzes"});
+//        engine.addDungeon(new String[] {"", "kis", "Osi Szentely", "Arin,Emera,Selia", "Lord Torak", "eletero"});
+//        engine.addDungeon(new String[] {"", "nagy", "A melyseg kiralynoje", "Liora,Arin,Selia,Nerun,Torak", "Priestess Selia"});
+//
+//        engine.createPlayer();
+//        List<Card> emptyDeck = new ArrayList<>();
+//        engine.getPlayer().setDeck(new Deck(emptyDeck));
+//
+//        engine.addToCollection("Arin");
+//        engine.addToCollection("Liora");
+//        engine.addToCollection("Selia");
+//        engine.addToCollection("Nerun");
+//        engine.addToCollection("Torak");
+//        engine.addToCollection("Emera");
+//        engine.addToCollection("Kael");
+//        engine.addToCollection("Myra");
+//        engine.addToCollection("Thalen");
+//        engine.addToCollection("Isara");
 
-        engine.addLeader("Lord Torak", "Torak", LeaderType.SEBZES);
-        engine.addLeader("Priestess Selia", "Selia", LeaderType.ELETERO);
-
-        engine.addDungeon(new String[] {"", "egyszeru", "Barlangi Portya", "Nerun", "sebzes"});
-        engine.addDungeon(new String[] {"", "kis", "Osi Szentely", "Arin,Emera,Selia", "Lord Torak", "eletero"});
-        engine.addDungeon(new String[] {"", "nagy", "A melyseg kiralynoje", "Liora,Arin,Selia,Nerun,Torak", "Priestess Selia"});
-
-        engine.createPlayer();
-        List<Card> emptyDeck = new ArrayList<>();
-        engine.getPlayer().setDeck(new Deck(emptyDeck));
-
-        engine.addToCollection("Arin");
-        engine.addToCollection("Liora");
-        engine.addToCollection("Selia");
-        engine.addToCollection("Nerun");
-        engine.addToCollection("Torak");
-        engine.addToCollection("Emera");
-        engine.addToCollection("Kael");
-        engine.addToCollection("Myra");
-        engine.addToCollection("Thalen");
-        engine.addToCollection("Isara");
+        engine.load();
 
         for (Card card : engine.getSimpleCards().values()) {
             ControllerUtils.newCardPane(simpleCardsContainer, card, false);
@@ -177,6 +180,8 @@ public class MainController implements EngineAware {
                 updateCardNodes();
                 rootPane.getChildren().remove(combatRoot);
             });
+
+            cc.setEngine(engine);
 
             rootPane.getChildren().add(combatRoot);
 

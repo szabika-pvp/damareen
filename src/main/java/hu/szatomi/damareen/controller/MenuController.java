@@ -1,5 +1,6 @@
 package hu.szatomi.damareen.controller;
 
+import hu.szatomi.damareen.GameEngine;
 import hu.szatomi.damareen.manager.SceneManager;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,12 +11,12 @@ public class MenuController {
 
     @FXML
     private void newGame() {
-        SceneManager.get().loadScene("new_game", null);
+        SceneManager.get().loadScene("main", new GameEngine());
     }
 
     @FXML
     private void loadGame() {
-        SceneManager.get().loadScene("load_menu", null);
+        SceneManager.get().loadScene("main", new GameEngine());
     }
 
     @FXML

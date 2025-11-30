@@ -50,11 +50,12 @@ public class CombatController implements EngineAware {
     @Override
     public void setEngine(GameEngine engine) {
         this.engine = engine;
+        startCombatUI();
     }
 
     @FXML
     public void initialize() {
-        startCombatUI();
+
     }
 
     public void startCombatUI() {

@@ -4,11 +4,11 @@ import java.util.List;
 
 public class Dungeon {
 
-    private final DungeonType type;
-    private final String name;
-    private final List<Card> enemies;
-    private final LeaderCard leader;
-    private final RewardType reward;
+    private DungeonType type;
+    private String name;
+    private List<Card> enemies;
+    private LeaderCard leader;
+    private RewardType reward;
 
     public Dungeon(DungeonType type, String name, List<Card> enemies, LeaderCard leader, RewardType reward) {
         this.type = type;
@@ -17,6 +17,8 @@ public class Dungeon {
         this.leader = leader;
         this.reward = reward;
     }
+
+    public Dungeon() {}
 
     public boolean hasLeader() { return leader != null; }
 
@@ -39,4 +41,6 @@ public class Dungeon {
     public List<Card> getEnemies() {
         return enemies;
     }
+
+
 }

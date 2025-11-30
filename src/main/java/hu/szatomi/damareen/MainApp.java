@@ -1,9 +1,7 @@
 package hu.szatomi.damareen;
 
-import hu.szatomi.damareen.controller.ControllerUtils;
 import hu.szatomi.damareen.manager.SceneManager;
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 

@@ -1,0 +1,40 @@
+{
+	"cards": [
+		{"name": "Nigga 1", "dmg": 61, "hp": 201, "type": "FOLD"},
+		{"name": "Nigga 2", "dmg": 62, "hp": 202, "type": "VIZ"},
+		{"name": "Nigga 3", "dmg": 63, "hp": 203, "type": "TUZ"},
+		{"name": "Nigga 4", "dmg": 64, "hp": 204, "type": "LEVEGO"},
+		{"name": "Nigga 5", "dmg": 65, "hp": 205, "type": "FOLD"},
+		{"name": "Nigga 6", "dmg": 66, "hp": 206, "type": "VIZ"},
+		{"name": "Nigga 7", "dmg": 67, "hp": 207, "type": "TUZ"},
+		{"name": "Nigga 8", "dmg": 68, "hp": 208, "type": "LEVEGO"},
+		{"name": "Nigga 9", "dmg": 69, "hp": 209, "type": "FOLD"},
+		{"name": "Nigga 10", "dmg": 70, "hp": 210, "type": "FOLD"}
+	],
+
+	"bosses": [
+		{"name": "Nigga boss", "base_name": "Nigga 1", "type": "SEBZES"}
+	],
+
+	"dungeons": [
+		{
+			"name": "Nigga Üreg",
+			"enemies": [
+				"Nigga 6",
+				"Nigga 7"
+			],
+			"leader": "Nigga boss"
+		}
+	],
+
+	"player": {
+		"collection": [
+			"Nigga 1",
+			"Nigga 3",
+			"Nigga 5",
+			"Nigga 6",
+			"Nigga 7"
+		],
+		"deck": []
+	}
+}

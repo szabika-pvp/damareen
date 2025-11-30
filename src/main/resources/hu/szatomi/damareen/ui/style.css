@@ -2,6 +2,23 @@
     -fx-font-family: "Jersey 10";
 }
 
+.dark-pane {
+    -fx-background-color: #444;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+
+.light-pane {
+    -fx-background-color: #fff;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+}
+
+.dark-pane Label {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+}
+
 .card {
     -fx-background-color: white;
     -fx-border-radius: 5;

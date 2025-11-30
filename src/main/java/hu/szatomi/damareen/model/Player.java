@@ -8,6 +8,10 @@ public class Player {
     List<Card> collection = new ArrayList<>();
     Deck deck;
 
+    public void setCollection(List<Card> collection) {
+        this.collection = collection;
+    }
+
     public void setDeck(Deck deck) {
         this.deck = deck;
     }

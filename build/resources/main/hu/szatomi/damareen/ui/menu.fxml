@@ -56,21 +56,6 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Pane>
-                        <Pane layoutX="10.0" layoutY="677.0" onMouseClicked="#gameMaster" styleClass="menu-button">
-                           <children>
-                              <Label text="JÁTÉKMESTER" textFill="WHITE">
-                                 <font>
-                                    <Font name="Jersey 10 Regular" size="96.0" />
-                                 </font>
-                                 <padding>
-                                    <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
-                                 </padding>
-                              </Label>
-                           </children>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Pane>
                         <Pane layoutX="10.0" layoutY="677.0" onMouseClicked="#exit" styleClass="menu-button">
                            <children>
                               <Label text="KILÉPÉS" textFill="WHITE">

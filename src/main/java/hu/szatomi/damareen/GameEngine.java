@@ -1,7 +1,9 @@
 package hu.szatomi.damareen;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.szatomi.damareen.logic.CombatFileWriter;
 import hu.szatomi.damareen.logic.CombatEngine;
+import hu.szatomi.damareen.logic.GameStateLoader;
 import hu.szatomi.damareen.model.*;
 
 import java.io.BufferedWriter;
@@ -9,16 +11,19 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import static java.lang.Math.min;
 
 public class GameEngine {
 
-    private Player player;
-    private int difficulty = 0;
+    private final Path SAVE_PATH = Path.of("game.json");
 
-    private final Map<String, Card> simpleCards = new LinkedHashMap<>();
-    private final Map<String, LeaderCard> leaderCards = new HashMap<>();
-    private final Map<String, Dungeon> dungeons = new LinkedHashMap<>();
+    private Player player;
+
+    private Map<String, Card> simpleCards = new LinkedHashMap<>();
+    private Map<String, LeaderCard> leaderCards = new HashMap<>();
+    private Map<String, Dungeon> dungeons = new LinkedHashMap<>();
 
     public void createPlayer() {
         this.player = new Player();
@@ -31,14 +36,6 @@ public class GameEngine {
     public Map<String, Card> getSimpleCards() { return simpleCards; }
     public Map<String, LeaderCard> getLeaderCards() { return leaderCards; }
     public Map<String, Dungeon> getDungeons() { return dungeons; }
-
-    public void loadState(GameState state) {
-
-    }
-
-    public void setDifficulty(int difficulty) {
-        this.difficulty = difficulty;
-    }
 
     public void addCard(String name, int dmg, int hp, CardType type) {
         simpleCards.put(shorten(name, 16), new Card(shorten(name, 16), dmg, hp, type));
@@ -68,7 +65,7 @@ public class GameEngine {
 
         if (type == DungeonType.KIS || type == DungeonType.NAGY) {
             boss = leaderCards.get(args[4].trim());
-            leaderIndex = 5;
+            leaderIndex = 5;                                    //67
         }
 
         // reward (egyszerű és kicsi esetén, nagy kazamatánál NINCS)
@@ -85,6 +82,46 @@ public class GameEngine {
 
     public void addToCollection(String cardName) {
         player.getCollection().add(getCard(cardName));
+    }
+
+    public GameState toGameState() {
+        return new GameState(
+                new Environment(simpleCards, leaderCards, dungeons),
+                player
+        );
+    }
+
+    public boolean save() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writerWithDefaultPrettyPrinter()
+                    .writeValue(SAVE_PATH.toFile(), toGameState());
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean load() {
+
+        if (!Files.exists(SAVE_PATH)) return false;
+
+        try {
+
+            GameStateLoader loader = new GameStateLoader();
+            GameState state = loader.load(Path.of("game.json"));
+
+            simpleCards = state.getEnv().getCards();
+            leaderCards = state.getEnv().getLeaders();
+            dungeons = state.getEnv().getDungeons();
+            player = state.getPlayer();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     public void createDeck(String[] deck) {

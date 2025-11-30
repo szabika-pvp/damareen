@@ -35,6 +35,7 @@ public class SceneManager {
                 loader = new FXMLLoader(
                         getClass().getResource("/hu/szatomi/damareen/ui/" + name + ".fxml")
                 );
+
                 root = loader.load();
                 cache.put(name, root);
             }

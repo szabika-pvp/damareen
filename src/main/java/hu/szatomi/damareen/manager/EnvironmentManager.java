@@ -23,8 +23,8 @@ public class EnvironmentManager {
         return names;
     }
 
-    public static EnvironmentConfig loadEnvironment(String name) throws IOException {
+    public static Environment loadEnvironment(String name) throws IOException {
         Path path = Path.of(ENV_DIR + name + ".json");
-        return MAPPER.readValue(path.toFile(), EnvironmentConfig.class);
+        return MAPPER.readValue(path.toFile(), Environment.class);
     }
 }

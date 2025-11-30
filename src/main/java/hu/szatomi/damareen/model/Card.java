@@ -2,10 +2,10 @@ package hu.szatomi.damareen.model;
 
 public class Card {
 
-    protected final String name;
+    protected String name;
     protected int damage;
     protected int health;
-    protected final CardType type;
+    protected CardType type;
 
     protected int baseDamage;
     protected int baseHealth;
@@ -19,6 +19,8 @@ public class Card {
         this.baseDamage = damage;
         this.baseHealth = health;
     }
+
+    public Card() {}
 
     public String getName() { return name; }
     public int getDamage() { return damage; }
