@@ -12,7 +12,7 @@ public class SceneManager {
 
     private static SceneManager INSTANCE;
     private final Stage stage;
-    private final Map<String, Parent> cache = new HashMap<>();
+    //private final Map<String, Parent> cache = new HashMap<>();
 
     private SceneManager(Stage stage) {
         this.stage = stage;
@@ -28,22 +28,27 @@ public class SceneManager {
 
     public void loadScene(String name, GameEngine engine) {
         try {
-            Parent root = cache.get(name);
+            Parent root = null;
             FXMLLoader loader = null;
 
-            if (root == null) {
-                loader = new FXMLLoader(
-                        getClass().getResource("/hu/szatomi/damareen/ui/" + name + ".fxml")
-                );
 
-                root = loader.load();
-                cache.put(name, root);
-            }
+            loader = new FXMLLoader(
+                    getClass().getResource("/hu/szatomi/damareen/ui/" + name + ".fxml")
+            );
 
-            // controller injection
-            if (loader != null && loader.getController() instanceof EngineAware ea) {
+            root = loader.load();
+
+            if (loader.getController() instanceof EngineAware ea) {
                 ea.setEngine(engine);
             }
+
+            //cache.put(name, root);
+
+
+            // controller injection
+//            if (loader != null && loader.getController() instanceof EngineAware ea) {
+//                ea.setEngine(engine);
+//            }
 
             stage.setScene(new Scene(root));
             stage.show();

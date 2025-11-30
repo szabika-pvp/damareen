@@ -19,6 +19,11 @@ public class LeaderCard extends Card {
 
     public LeaderCard() {}
 
+    @Override
+    public LeaderCard copy() {
+        return new LeaderCard(this.getName(), this.baseCard.copy(), this.leaderType);
+    }
+
     public LeaderType getLeaderType() {
         return leaderType;
     }

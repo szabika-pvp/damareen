@@ -4,7 +4,7 @@ import java.util.List;
 
 public class EnvironmentDTO {
     public List<CardDTO> cards;
-    public List<LeaderDTO> bosses;
+    public List<LeaderDTO> leaders;
     public List<DungeonDTO> dungeons;
 
     public EnvironmentDTO() {}

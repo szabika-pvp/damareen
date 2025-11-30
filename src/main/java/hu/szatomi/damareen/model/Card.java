@@ -22,6 +22,10 @@ public class Card {
 
     public Card() {}
 
+    public Card copy() {
+        return new Card(name, damage, health, type);
+    }
+
     public String getName() { return name; }
     public int getDamage() { return damage; }
     public int getHealth() { return health; }

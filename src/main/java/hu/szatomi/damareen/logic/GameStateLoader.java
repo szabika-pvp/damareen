@@ -28,9 +28,9 @@ public class GameStateLoader {
         env.setCards(cards);
 
         // Leaders
-        Map<String, LeaderCard> leaders = dto.env.bosses.stream()
+        Map<String, LeaderCard> leaders = dto.env.leaders.stream()
                 .map(b ->
-                    new LeaderCard(b.name, b.baseCard, b.type))
+                    new LeaderCard(b.name, env.getCardByName(b.baseCard).copy(), b.type))
                 .collect(Collectors.toMap(LeaderCard::getName, c -> c));
         env.setLeaders(leaders);
 
@@ -38,12 +38,12 @@ public class GameStateLoader {
         Map<String, Dungeon> dungeons = dto.env.dungeons.stream()
                 .map(d -> {
                     List<Card> enemyCards = d.enemies.stream()
-                            .map(env::getCardByName)
+                            .map(env::getCopyByName)
                             .collect(Collectors.toList());
 
                     LeaderCard leader = d.leader == null
                             ? null
-                            : env.getLeaderByName(d.leader);
+                            : env.getLeaderByName(d.leader).copy();
 
                     return new Dungeon(d.type, d.name, enemyCards, leader, d.rewardType);
                 })
@@ -55,14 +55,14 @@ public class GameStateLoader {
 
         p.setCollection(
             dto.player.collection.stream()
-                .map(env::getCardByName)
-                .collect(Collectors.toList())
+                .map(c -> new Card(c.name, c.damage, c.health, c.type))
+                    .collect(Collectors.toList())
         );
 
         p.setDeck(
             new Deck(
                 dto.player.deck.stream()
-                    .map(env::getCardByName)
+                    .map(env::getCopyByName)
                     .collect(Collectors.toList())
             )
         );

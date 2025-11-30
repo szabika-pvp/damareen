@@ -25,6 +25,10 @@ public class Environment {
                 .orElse(null);
     }
 
+    public Card getCopyByName(String name) {
+        return getCardByName(name).copy();
+    }
+
     public LeaderCard getLeaderByName(String name) {
         return bosses.values().stream()
                 .filter(l -> l.getName().equals(name))

@@ -1,7 +1,9 @@
 package hu.szatomi.damareen.controller;
 
 import hu.szatomi.damareen.GameEngine;
+import hu.szatomi.damareen.manager.SceneManager;
 import hu.szatomi.damareen.model.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -9,14 +11,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
 public class MainController implements EngineAware {
 
@@ -24,6 +25,9 @@ public class MainController implements EngineAware {
 
     @FXML
     private StackPane rootPane;
+
+    @FXML
+    private VBox pauseMenu;
 
     @FXML
     private FlowPane simpleCardsContainer;
@@ -40,6 +44,18 @@ public class MainController implements EngineAware {
 
     private GameEngine engine;
     private Dungeon currentDungeon = null;
+
+    @FXML
+    public void initialize() {
+        // későbbi futásra rakjuk, mert initialize idején még nincs scene
+        Platform.runLater(() -> {
+            rootPane.getScene().setOnKeyPressed(e -> {
+                if (Objects.requireNonNull(e.getCode()) == KeyCode.ESCAPE) {
+                    onEsc();
+                }
+            });
+        });
+    }
 
     @Override
     public void setEngine(GameEngine engine) {
@@ -102,8 +118,6 @@ public class MainController implements EngineAware {
 
             card.cursorProperty().set(Cursor.HAND);
 
-            Tooltip.install(card, new Tooltip("Bal klikk a paklihoz adáshoz"));
-
             card.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY &&
                     deckContainer.getChildren().size() < collectionContainer.getChildren().size() &&
@@ -117,6 +131,16 @@ public class MainController implements EngineAware {
                     removeFromDeck((FlowPane) card);
                 }
             });
+        }
+
+        for (Card card : engine.getPlayer().getDeck().getCards()) {
+
+            collectionContainer.getChildren().stream()
+                    .filter(n -> {
+                        Card c = (Card) n.getUserData();
+                        return c.getName().equals(card.getName()); // vagy == ha klónozol
+                    })
+                    .findFirst().ifPresent(node -> deckContainer.getChildren().add(node));
         }
 
         for (Dungeon dungeon : engine.getDungeons().values()) {
@@ -166,6 +190,35 @@ public class MainController implements EngineAware {
         }
     }
 
+    private void onEsc() {
+
+        System.out.println("ASD");
+        if (pauseMenu.isVisible()) closeMenu();
+        else openMenu();
+    }
+
+    @FXML
+    private void openMenu() {
+        pauseMenu.setVisible(true);
+    }
+
+    @FXML
+    private void closeMenu() {
+        pauseMenu.setVisible(false);
+    }
+
+    @FXML
+    private void mainMenu() {
+        engine.save();
+        SceneManager.get().loadScene("menu", engine);
+    }
+
+    @FXML
+    private void saveExit() {
+        engine.save();
+        System.exit(0);
+    }
+
     @FXML
     private void openCombat() {
 
@@ -200,7 +253,6 @@ public class MainController implements EngineAware {
     private void addToDeck(FlowPane card) {
         engine.getPlayer().getDeck().addCard((Card) card.getUserData());
         deckContainer.getChildren().add(card);
-        Tooltip.install(card, new Tooltip("Jobb klikk a pakliból kiszedéshez"));
 
         if (fightButton.isDisabled() && currentDungeon != null) {
             fightButton.setDisable(false);
@@ -209,9 +261,8 @@ public class MainController implements EngineAware {
     }
 
     private void removeFromDeck(FlowPane card) {
-        engine.getPlayer().getDeck().removeCard((Card) card.getUserData());
+        engine.getPlayer().getDeck().removeCardByName(((Card) card.getUserData()).getName());
         collectionContainer.getChildren().add(card);
-        Tooltip.install(card, new Tooltip("Bal klikk a paklihoz adáshoz"));
 
         if (deckContainer.getChildren().isEmpty()) {
             fightButton.setDisable(true);

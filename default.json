@@ -1,0 +1,43 @@
+{
+	"env": {
+		"cards": [
+			{"name": "Nigga 1", "damage": 61, "health": 201, "type": "FOLD"},
+			{"name": "Nigga 2", "damage": 62, "health": 202, "type": "VIZ"},
+			{"name": "Nigga 3", "damage": 63, "health": 203, "type": "TUZ"},
+			{"name": "Nigga 4", "damage": 64, "health": 204, "type": "LEVEGO"},
+			{"name": "Nigga 5", "damage": 65, "health": 205, "type": "FOLD"},
+			{"name": "Nigga 6", "damage": 66, "health": 206, "type": "VIZ"},
+			{"name": "Nigga 7", "damage": 67, "health": 207, "type": "TUZ"},
+			{"name": "Nigga 8", "damage": 68, "health": 208, "type": "LEVEGO"},
+			{"name": "Nigga 9", "damage": 69, "health": 209, "type": "FOLD"},
+			{"name": "Nigga 10", "damage": 70, "health": 210, "type": "FOLD"}
+		],
+
+		"leaders": [
+			{"name": "Nigga 6 boss", "baseCard": "Nigga 6", "type": "SEBZES"}
+		],
+
+		"dungeons": [
+			{
+				"name": "Nigga Üreg",
+				"enemies": [
+					"Nigga 6",
+					"Nigga 7"
+				],
+				"leader": "Nigga 6 boss",
+				"type": "KIS"
+			}
+		]
+	},
+
+	"player": {
+		"collection": [
+			{"name": "Nigga 1", "damage": 61, "health": 201, "type": "FOLD"},
+			{"name": "Nigga 3", "damage": 63, "health": 203, "type": "TUZ"},
+			{"name": "Nigga 5", "damage": 65, "health": 205, "type": "FOLD"},
+			{"name": "Nigga 7", "damage": 67, "health": 207, "type": "TUZ"},
+			{"name": "Nigga 9", "damage": 69, "health": 209, "type": "FOLD"}
+		],
+		"deck": []
+	}
+}

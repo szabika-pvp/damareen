@@ -12,6 +12,14 @@ public class Player {
         this.collection = collection;
     }
 
+    public Card getCardByName(String cardName) {
+        for (Card card : collection) {
+            if (card.getName().equals(cardName)) return card;
+        }
+
+        return null;
+    }
+
     public void setDeck(Deck deck) {
         this.deck = deck;
     }

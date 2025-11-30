@@ -5,7 +5,9 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <StackPane fx:id="rootPane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hu.szatomi.damareen.controller.MainController">
@@ -107,5 +109,45 @@
             </FlowPane>
          </children>
       </AnchorPane>
+      <VBox fx:id="pauseMenu" alignment="CENTER" fillWidth="false" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #00000088;" visible="false" StackPane.alignment="CENTER">
+         <children>
+            <Pane onMouseClicked="#mainMenu" styleClass="menu-button">
+               <children>
+                  <Label text="MENÜ" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="791.0" layoutY="458.0" onMouseClicked="#closeMenu" styleClass="menu-button">
+               <children>
+                  <Label text="FOLYTATÁS" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="766.0" layoutY="550.0" onMouseClicked="#saveExit" styleClass="menu-button">
+               <children>
+                  <Label text="MENTÉS &amp; KILÉPÉS" textFill="WHITE">
+                     <padding>
+                        <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
+                     </padding>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Label>
+               </children>
+            </Pane>
+         </children>
+      </VBox>
    </children>
 </StackPane>

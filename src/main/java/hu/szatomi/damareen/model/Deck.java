@@ -15,4 +15,8 @@ public class Deck {
 
     public void addCard(Card card) {cards.add(card);}
     public void removeCard(Card card) {cards.remove(card);}
+
+    public void removeCardByName(String cardName) {
+        cards.removeIf(card -> card.getName().equals(cardName));
+    }
 }

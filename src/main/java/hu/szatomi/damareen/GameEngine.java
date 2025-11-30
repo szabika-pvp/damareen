@@ -1,9 +1,9 @@
 package hu.szatomi.damareen;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hu.szatomi.damareen.logic.CombatFileWriter;
 import hu.szatomi.damareen.logic.CombatEngine;
 import hu.szatomi.damareen.logic.GameStateLoader;
+import hu.szatomi.damareen.logic.GameStateSaver;
 import hu.szatomi.damareen.model.*;
 
 import java.io.BufferedWriter;
@@ -11,13 +11,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.lang.Math.min;
 
 public class GameEngine {
 
-    private final Path SAVE_PATH = Path.of("game.json");
+    private Path SAVE_PATH = Path.of("game.json");
 
     private Player player;
 
@@ -91,25 +90,27 @@ public class GameEngine {
         );
     }
 
-    public boolean save() {
+    public void save() {
+
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(SAVE_PATH.toFile(), toGameState());
-            return true;
+            GameStateSaver saver = new GameStateSaver();
+            saver.save(new GameState(
+                    new Environment(simpleCards, leaderCards, dungeons),
+                    player
+            ), Path.of("game.json"));
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
     }
 
     public boolean load() {
 
-        if (!Files.exists(SAVE_PATH)) return false;
+        if (!Files.exists(SAVE_PATH)) SAVE_PATH = Path.of("default.json");
 
         try {
 
             GameStateLoader loader = new GameStateLoader();
-            GameState state = loader.load(Path.of("game.json"));
+            GameState state = loader.load(SAVE_PATH);
 
             simpleCards = state.getEnv().getCards();
             leaderCards = state.getEnv().getLeaders();
